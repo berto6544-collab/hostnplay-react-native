@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const [dataSource, setDataSource] = useState<any[]>([]);
@@ -27,7 +21,24 @@ export default function Index() {
       {dataSource.map((p, i) => {
         return (
           <View style={styles.card}>
-            <Image src={p.Image} style={styles.cardImage}></Image>
+            <View style={{ position: "relative", overflow: "hidden" }}>
+              <Text
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  borderRadius: 30,
+                  padding: 10,
+                  paddingHorizontal: 20,
+                  zIndex: 5,
+                  backgroundColor: " rgba(0, 0, 0, 0.5)",
+                  color: "white",
+                }}
+              >
+                {p.SpotsLeft == "0 spots left" ? "Full" : p.SpotsLeft}
+              </Text>
+              <Image src={p.Image} style={styles.cardImage}></Image>
+            </View>
             <View style={styles.insideCard}>
               <Text style={styles.cardTitle}>{p.Title}</Text>
               {p.GameType == "" && (
