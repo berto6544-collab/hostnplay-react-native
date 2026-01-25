@@ -163,19 +163,19 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    //backgroundColor: "rgba(0,0,0,0.4)",
   },
   container: {
     marginHorizontal: 20,
     padding: 24,
     borderRadius: 16,
-    backgroundColor: "rgba(40, 45, 47, 0.85)",
+    //backgroundColor: "rgba(40, 45, 47, 0.85)",
     zIndex: 1,
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#fff",
+    color: "black",
     textAlign: "center",
     marginBottom: 20,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    color: "black",
     fontSize: 16,
     fontWeight: "600",
   },
@@ -212,10 +212,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   signupText: {
-    color: "#ccc",
+    color: "black",
   },
   signupLink: {
-    color: "#fff",
+    color: "black",
     fontWeight: "700",
   },
 });
