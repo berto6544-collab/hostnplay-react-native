@@ -1,5 +1,5 @@
 import * as Clipboard from "expo-clipboard";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -15,15 +15,16 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-paper";
 import AuthApi from "../../components/AuthApi";
+import CustomSelect from "./component/CustomSelect";
 
 export default function Game() {
-  const { uniqId } = useLocalSearchParams();
-
+  const { uniqId, title } = useLocalSearchParams();
+  const navigation = useNavigation();
   const date1 = moment().unix();
   const Auth = useContext(AuthApi);
 
   const [index, setIndex] = useState(0);
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState<any[]>([]);
   const [dataSourceReview, setDataSourceReview] = useState([]);
   const [start, setStart] = useState(0);
   const [show, setShow] = useState(false);
@@ -49,6 +50,7 @@ export default function Game() {
       const responseJSON = await res.json();
 
       setDataSource(responseJSON);
+      navigation.setOptions({ title: responseJSON[0].Title });
       setSched(responseJSON[0].EventDate);
       setDataSourceReview(responseJSON[0].ReviewData);
       setId(responseJSON[0].EventDateId);
@@ -84,35 +86,22 @@ export default function Game() {
   };
 
   const handleBookPress = () => {
-    const item = dataSource[index];
+    if (dataSource.length == 0) return;
+    //const item = dataSource[index];
 
-    if (item.GameType !== "sub") {
+    if (dataSource[index].GameType !== "sub") {
       if (Auth?.isAuthenticated) {
-        navigation.navigate("Payment", { uniqId, Id });
+        //router.push(`/Game/Payment?id=${Id}`);
       } else {
-        navigation.navigate("login", {
-          referralCode: item.refferalCode,
-          from: `/payment/game/${uniqId}/${Id}`,
-        });
+        router.push(`/login`);
       }
     } else {
       if (Auth?.isAuthenticated) {
-        if (item.GameData === 0) {
-          navigation.navigate("ProfileSubscription", {
-            username: item.UserName,
-          });
+        if (dataSource[index].GameData === 0) {
+          //router.push("/profile/ProfileSubscription", {username: item.UserName,});
         } else {
-          navigation.navigate("Payment", { uniqId, Id });
+          // router.push(`/Game/payment?id=${Id}&uniqId=${uniqId}` });
         }
-      } else {
-        const reffer =
-          item.GameData === 0
-            ? `/@${item.UserName}/subscription`
-            : `/payment/game/${uniqId}/${Id}`;
-        navigation.navigate("login", {
-          referralCode: item.refferalCode,
-          from: reffer,
-        });
       }
     }
   };
@@ -157,7 +146,11 @@ export default function Game() {
 
               {item.PlayersBring !== "" && (
                 <View style={styles.listSection}>
-                  <Text style={styles.bold}>How to prepare</Text>
+                  <Text
+                    style={(styles.bold, { color: "white", fontWeight: "700" })}
+                  >
+                    How to prepare
+                  </Text>
                   {item.PlayersBring.split("[nl]").map((p, i) => (
                     <Text key={i} style={styles.listItem}>
                       • {p}
@@ -168,7 +161,11 @@ export default function Game() {
 
               {item.Bring !== "" && (
                 <View style={styles.listSection}>
-                  <Text style={styles.bold}>Rules for the session!</Text>
+                  <Text
+                    style={(styles.bold, { color: "white", fontWeight: "700" })}
+                  >
+                    Rules for the session!
+                  </Text>
                   {item.Bring.split("[nl]").map((p, i) => (
                     <Text key={i} style={styles.listItem}>
                       • {p}
@@ -274,16 +271,18 @@ export default function Game() {
           </View>
 
           <View>
-            {/*<CustomSelect
-              setId={setId}
-              setSched={setSched}
-              setSchedDate={setSchedDate}
-              setSpot={setSpot}
-              setSpotCount={setSpotCount}
-              setSpotFilled={setSpotFilled}
-              data={dataSource[0]}
-              uniqId={uniqId}
-            />*/}
+            {
+              <CustomSelect
+                setId={setId}
+                setSched={setSched}
+                setSchedDate={setSchedDate}
+                setSpot={setSpot}
+                setSpotCount={setSpotCount}
+                setSpotFilled={setSpotFilled}
+                data={dataSource[0]}
+                uniqId={uniqId}
+              />
+            }
           </View>
         </View>
 
@@ -360,7 +359,7 @@ export default function Game() {
           <TouchableOpacity
             style={styles.secondaryButton}
             onPress={() =>
-              navigation.navigate("Profile", { username: item.UserName })
+              router.push(`Profile/user?username=${item.UserName}`)
             }
           >
             <Text style={styles.secondaryButtonText}>View Profile</Text>
@@ -369,7 +368,7 @@ export default function Game() {
           <TouchableOpacity
             style={styles.secondaryButton}
             onPress={() =>
-              navigation.navigate("Message", { username: item.UserName })
+              router.push(`Message/message?username=${item.UserName}`)
             }
           >
             <Text style={styles.secondaryButtonText}>Message</Text>
@@ -394,7 +393,7 @@ export default function Game() {
             style={styles.shareButton}
             onPress={() => Linking.openURL(`https://hostnplay.com/g/${uniqId}`)}
           >
-            <Text style={styles.shareText}>Open</Text>
+            <Text>Open</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -442,7 +441,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "white",
   },
-  bold: { fontWeight: "bold" },
+  bold: { fontWeight: "700" },
   listSection: { marginBottom: 15 },
   listItem: { color: "white", marginTop: 4 },
 
@@ -578,5 +577,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: 50,
   },
-  shareText: { fontWeight: "bold" },
+  shareText: { fontWeight: "700" },
 });

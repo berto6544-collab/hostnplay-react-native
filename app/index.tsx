@@ -98,7 +98,12 @@ export default function Index() {
         return (
           <TouchableOpacity
             onPress={() => {
-              router.push(`Game/title/?uniqId=${p.uniqTitle}`);
+              //router.push(`Game/game/?uniqId=${p.uniqTitle}`);
+              router.push({
+                pathname: "/Game/game",
+                options: { title: p.Title },
+                params: { uniqId: p.uniqTitle },
+              });
             }}
           >
             <View style={styles.card}>

@@ -1,3 +1,4 @@
+import Cookie from "@/Util/Cookie";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
@@ -27,16 +28,15 @@ export default function Login() {
 
     setisLoginin(true);
     try {
-      const response = await fetch(
-        process.env.EXPO_PUBLIC_SITE + "/api/autth",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
+      const response = await fetch("https://hostnplay.com/api/autth", {
+        method: "POST",
+        mode: "no-cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await response.json();
       console.log(data);
@@ -50,6 +50,9 @@ export default function Login() {
         await AsyncStorage.setItem("userId", String(user.userId));
         await AsyncStorage.setItem("user", JSON.stringify(user));
         await AsyncStorage.setItem("SCOM", data.Token);
+        await Cookie.set("SCOM", data.Token, {
+          expires: new Date(Date.now() + 3600 * 1000),
+        });
         await AsyncStorage.setItem("SCOM_", "1");
         await AsyncStorage.setItem("theme", "dark");
 
@@ -132,13 +135,7 @@ export default function Login() {
 
           <View style={styles.signupRow}>
             <Text style={styles.signupText}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("signup", {
-                  from: route.params?.from || "home",
-                });
-              }}
-            >
+            <TouchableOpacity onPress={() => {}}>
               <Text style={styles.signupLink}>Signup</Text>
             </TouchableOpacity>
           </View>
