@@ -30,7 +30,6 @@ export default function Login() {
     try {
       const response = await fetch("https://hostnplay.com/api/autth", {
         method: "POST",
-        mode: "no-cors",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

@@ -41,7 +41,6 @@ const Cookie = {
 
       return cookie.value;
     } catch (err) {
-      console.error("Error getting cookie:", err);
       return null;
     }
   },
