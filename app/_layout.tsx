@@ -1,6 +1,14 @@
 import Cookie from "@/Util/Cookie";
 import { Stack, useNavigation } from "expo-router";
+import {
+  Bell,
+  Compass,
+  MessageCircleMore,
+  PlusSquare,
+  User,
+} from "lucide-react-native";
 import React from "react";
+import { TouchableOpacity, View } from "react-native";
 import AuthApi from "../components/AuthApi";
 import { NavBarRight } from "./component/NavBar";
 
@@ -96,6 +104,42 @@ export default function RootLayout() {
           }}
         />
       </Stack>
+      {userData.length > 0 && (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            position: "fixed",
+            width: "100%",
+            bottom: 0,
+            alignItems: "center",
+            gap: 10,
+            justifyContent: "space-between",
+            padding: 10,
+            paddingHorizontal: 30,
+            paddingBottom: 30,
+            backgroundColor: "white",
+            zIndex: 50,
+          }}
+        >
+          <TouchableOpacity>
+            <MessageCircleMore size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Compass size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <PlusSquare size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Bell size={30} />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <User size={30} />
+          </TouchableOpacity>
+        </View>
+      )}
     </AuthApi.Provider>
   );
 }

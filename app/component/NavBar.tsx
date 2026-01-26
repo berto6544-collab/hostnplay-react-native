@@ -1,9 +1,8 @@
 import AuthApi from "@/components/AuthApi";
 import { router } from "expo-router";
-import { Bell, Form, LogIn, Menu } from "lucide-react-native";
+import { Bell, Form, LogIn, Menu, Search } from "lucide-react-native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Avatar } from "react-native-paper";
 
 export function NavBarRight({ token, userData }) {
   const Auth = React.useContext(AuthApi);
@@ -22,17 +21,12 @@ export function NavBarRight({ token, userData }) {
           gap: 5,
         }}
       >
-        <TouchableOpacity style={{ padding: 10 }}>
+        <TouchableOpacity style={{ padding: 5 }}>
           <Bell color={"black"} />
         </TouchableOpacity>
-        {userData.length > 0 && (
-          <TouchableOpacity style={{ padding: 10 }}>
-            <Avatar.Image
-              size={30}
-              source={{ uri: userData[0].ProfileImage }}
-            />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity style={{ padding: 5 }}>
+          <Search color={"black"} />
+        </TouchableOpacity>
       </View>
     );
   } else {
@@ -70,7 +64,6 @@ export function NavBarRight({ token, userData }) {
               backgroundColor: "lightgrey",
               alignItems: "flex-start",
               position: "absolute",
-              width: "100%",
               padding: 10,
               borderRadius: 10,
               top: 60,

@@ -1,3 +1,4 @@
+import AuthApi from "@/components/AuthApi";
 import Cookie from "@/Util/Cookie";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -15,6 +16,7 @@ import {
 } from "react-native";
 
 export default function Login() {
+  const Auth = React.useContext(AuthApi);
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -55,13 +57,13 @@ export default function Login() {
         await AsyncStorage.setItem("SCOM_", "1");
         await AsyncStorage.setItem("theme", "dark");
 
-        //Auth.setUserData(data.userAuth);
-        //Auth.setAuth(data.Token);
+        Auth.setUserData(data.userAuth);
+        Auth.setAuth(data.Token);
 
         if (route.params?.from) {
           navigation.replace(route.params.from);
         } else {
-          navigation.replace("Home");
+          navigation.replace("index");
         }
       }
     } catch (err) {
@@ -159,19 +161,19 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    //backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   container: {
     marginHorizontal: 20,
     padding: 24,
     borderRadius: 16,
-    //backgroundColor: "rgba(40, 45, 47, 0.85)",
+    backgroundColor: "rgba(40, 45, 47, 0.70)",
     zIndex: 1,
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
-    color: "black",
+    color: "white",
     textAlign: "center",
     marginBottom: 20,
   },
@@ -208,10 +210,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   signupText: {
-    color: "black",
+    color: "white",
   },
   signupLink: {
-    color: "black",
+    color: "orange",
     fontWeight: "700",
   },
 });
