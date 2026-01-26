@@ -1,17 +1,18 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useState } from "react";
 import {
-    Image,
-    Linking,
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Linking,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
+import { X } from "lucide-react-native";
 import AuthApi from "../../../components/AuthApi";
 
 export default function SidebarProfile({
@@ -115,21 +116,38 @@ function AddLinkModal({ visible, onClose }) {
   const [url, setUrl] = useState("");
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal visible={visible} transparent>
       <View style={styles.modalOverlay}>
         <View style={styles.modal}>
-          <Text style={styles.modalTitle}>Add Link</Text>
-
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.modalTitle}>Add Link</Text>
+            <TouchableOpacity
+              onPress={() => {
+                onClose();
+              }}
+            >
+              <X size={30} color={"black"} />
+            </TouchableOpacity>
+          </View>
           <TextInput
             placeholder="Title"
             value={title}
             onChangeText={setTitle}
+            placeholderTextColor={"gray"}
             style={styles.input}
           />
 
           <TextInput
             placeholder="URL"
             value={url}
+            placeholderTextColor={"gray"}
             onChangeText={setUrl}
             style={styles.input}
           />
@@ -187,15 +205,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modal: {
-    backgroundColor: "#111",
+    backgroundColor: "white",
     margin: 20,
     padding: 20,
     borderRadius: 10,
   },
-  modalTitle: { fontSize: 18, fontWeight: "bold", color: "white" },
+  modalTitle: { fontSize: 18, fontWeight: "bold", color: "black" },
   input: {
-    backgroundColor: "#222",
-    color: "white",
+    backgroundColor: "#F2F2F2",
+    color: "black",
     padding: 10,
     borderRadius: 6,
     marginTop: 10,

@@ -360,7 +360,6 @@ export default function Game() {
           <TouchableOpacity
             style={styles.secondaryButton}
             onPress={() => {
-              navigation.setOptions({ title: item.UserName });
               router.push(`Profile/user?username=${item.UserName}`);
             }}
           >

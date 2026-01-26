@@ -162,10 +162,7 @@ export default function RootLayout() {
             onPress={() => {
               if (userData.length == 0) return;
 
-              navigation.setOptions({ title: userData[0].UserName });
-              router.push(`Profile/user?username=${userData[0].UserName}`, {
-                title: "My Profile",
-              });
+              router.push(`Profile/user?username=${userData[0].UserName}`);
             }}
           >
             <User size={30} />

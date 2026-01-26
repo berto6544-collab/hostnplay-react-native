@@ -1,6 +1,6 @@
 import AuthApi from "@/components/AuthApi";
 import { router } from "expo-router";
-import { Bell, Form, LogIn, Menu, Search } from "lucide-react-native";
+import { Bell, Form, LogIn, Menu } from "lucide-react-native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -21,17 +21,38 @@ export function NavBarRight({ token, userData }) {
           gap: 5,
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            router.push("/notification");
-          }}
-          style={{ padding: 5 }}
-        >
-          <Bell color={"black"} size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ padding: 5 }}>
-          <Search color={"black"} size={30} />
-        </TouchableOpacity>
+        {userData.length > 0 && (
+          <TouchableOpacity
+            onPress={() => {
+              userData[0].Notify = 0;
+              Auth.setUserData([...Auth.userData]);
+              fetch("https://hostnplay.com/api/notificationsCount");
+              router.push("/notification");
+            }}
+            style={{ padding: 5, position: "relative" }}
+          >
+            <Bell color={"black"} size={30} />
+            {userData[0].Notify > 0 && (
+              <Text
+                style={{
+                  padding: 2,
+                  paddingHorizontal: 6,
+                  backgroundColor: "red",
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "absolute",
+                  bottom: 0,
+                  right: 2,
+                  fontSize: 12,
+                  alignItems: "center",
+                  borderRadius: "100%",
+                }}
+              >
+                {userData[0].Notify}
+              </Text>
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     );
   } else {
