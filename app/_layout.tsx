@@ -1,11 +1,11 @@
 import Cookie from "@/Util/Cookie";
 import { Stack, useNavigation } from "expo-router";
 import {
-  Bell,
   Compass,
+  Gamepad2Icon,
   MessageCircleMore,
   PlusSquare,
-  User,
+  User
 } from "lucide-react-native";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -95,6 +95,15 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="notification"
+          options={{
+            title: "Notifications",
+            headerRight: () => (
+              <NavBarRight token={isAuthenticated} userData={userData} />
+            ),
+          }}
+        />
+        <Stack.Screen
           name="signup"
           options={{
             title: "signup",
@@ -132,7 +141,7 @@ export default function RootLayout() {
             <PlusSquare size={30} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Bell size={30} />
+            <Gamepad2Icon size={30} />
           </TouchableOpacity>
 
           <TouchableOpacity>

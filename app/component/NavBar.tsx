@@ -21,11 +21,16 @@ export function NavBarRight({ token, userData }) {
           gap: 5,
         }}
       >
-        <TouchableOpacity style={{ padding: 5 }}>
-          <Bell color={"black"} />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/notification");
+          }}
+          style={{ padding: 5 }}
+        >
+          <Bell color={"black"} size={30} />
         </TouchableOpacity>
         <TouchableOpacity style={{ padding: 5 }}>
-          <Search color={"black"} />
+          <Search color={"black"} size={30} />
         </TouchableOpacity>
       </View>
     );
