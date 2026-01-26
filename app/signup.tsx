@@ -59,7 +59,7 @@ export default function Login() {
         if (route.params?.from) {
           navigation.replace(route.params.from);
         } else {
-          navigation.replace("Home");
+          navigation.replace("index");
         }
       }
     } catch (err) {
@@ -135,7 +135,7 @@ export default function Login() {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Signup", {
-                  from: route.params?.from || "Home",
+                  from: route.params?.from || "index",
                 });
               }}
             >

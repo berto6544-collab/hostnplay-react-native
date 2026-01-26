@@ -56,7 +56,7 @@ function User(props) {
       if (responseJSON.length > 0) {
         setDataSource(responseJSON);
         setDataSourceLink(responseJSON[0].LinksArray);
-        setFollowData(responseJSON[0].followData);
+        setFollowData(parseInt(responseJSON[0].followData));
 
         // Check URL param manually if needed
         if (route.params?.type === "customicon") {

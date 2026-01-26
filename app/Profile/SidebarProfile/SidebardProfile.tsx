@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useState } from "react";
 import {
   Image,
@@ -12,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import Cookie from "@/Util/Cookie";
 import { X } from "lucide-react-native";
 import AuthApi from "../../../components/AuthApi";
 
@@ -29,13 +29,16 @@ export default function SidebarProfile({
   const user = dataSource[index];
 
   const handleFollow = async () => {
-    const token = await AsyncStorage.getItem("SCOM");
+    const token = await Cookie.get("SCOM");
     if (!token) return;
 
     setFollowData(followData === 0 ? 1 : 0);
 
     fetch(
-      `https://hostnplay.com/followers?followerid=${user.postId}&userid=${user.MyuserId}`,
+      `https://hostnplay.com/api/followers?followerid=${user.postId}&userid=${user.MyuserId}`,
+      {
+        method: "GET",
+      },
     );
   };
 

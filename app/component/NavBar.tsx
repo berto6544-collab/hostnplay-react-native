@@ -1,8 +1,15 @@
 import AuthApi from "@/components/AuthApi";
 import { router } from "expo-router";
-import { Bell, Form, LogIn, Menu } from "lucide-react-native";
+import {
+  Bell,
+  ChevronLeft,
+  Form,
+  LogIn,
+  Menu,
+  MoreVertical,
+} from "lucide-react-native";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export function NavBarRight({ token, userData }) {
   const Auth = React.useContext(AuthApi);
@@ -53,6 +60,15 @@ export function NavBarRight({ token, userData }) {
             )}
           </TouchableOpacity>
         )}
+
+        <TouchableOpacity
+          onPress={() => {
+            Auth.setIsOpen(!Auth.isOpen);
+          }}
+          style={{ padding: 5, position: "relative" }}
+        >
+          <MoreVertical color={"black"} size={30} />
+        </TouchableOpacity>
       </View>
     );
   } else {
@@ -121,4 +137,45 @@ export function NavBarMiddle() {
 
 export function NavBarLeft() {
   const Auth = React.useContext(AuthApi);
+  return (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
+      }}
+    >
+      {router.canGoBack() ? (
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+          onPress={() => {
+            router.back();
+          }}
+        >
+          <ChevronLeft color={"blue"} size={30} />
+          <Text style={{ color: "blue", fontSize: 20 }}>Back</Text>
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={{
+              uri: "https://hostnplay.com/assets/img/logoblackback.png",
+            }}
+            style={{ width: 40, height: 40, objectFit: "cover" }}
+          ></Image>
+        </View>
+      )}
+    </View>
+  );
 }
