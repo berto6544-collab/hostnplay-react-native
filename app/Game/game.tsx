@@ -50,7 +50,7 @@ export default function Game() {
       const responseJSON = await res.json();
 
       setDataSource(responseJSON);
-      navigation.setOptions({ title: responseJSON[0].Title });
+
       setSched(responseJSON[0].EventDate);
       setDataSourceReview(responseJSON[0].ReviewData);
       setId(responseJSON[0].EventDateId);
@@ -64,6 +64,7 @@ export default function Game() {
 
       setSchedDate(result);
       setisDateMore(date1 <= result);
+      navigation.setOptions({ title: responseJSON[0].Title });
     } catch (err) {
       console.error(err);
     } finally {
@@ -358,9 +359,10 @@ export default function Game() {
         <View style={styles.profileActions}>
           <TouchableOpacity
             style={styles.secondaryButton}
-            onPress={() =>
-              router.push(`Profile/user?username=${item.UserName}`)
-            }
+            onPress={() => {
+              navigation.setOptions({ title: item.UserName });
+              router.push(`Profile/user?username=${item.UserName}`);
+            }}
           >
             <Text style={styles.secondaryButtonText}>View Profile</Text>
           </TouchableOpacity>

@@ -1,11 +1,17 @@
 import Cookie from "@/Util/Cookie";
-import { Stack, useNavigation } from "expo-router";
+import {
+  router,
+  Stack,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import {
   Compass,
   Gamepad2Icon,
   MessageCircleMore,
   PlusSquare,
-  User
+  User,
 } from "lucide-react-native";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -17,6 +23,8 @@ export default function RootLayout() {
   const [isAuthenticated, setIsAuthenticated] = React.useState("");
   const [userData, setUserData] = React.useState([]);
   const [theme, setTheme] = React.useState("light");
+  const routers = useRouter();
+  const { username } = useLocalSearchParams();
 
   const fetchCookie = async () => {
     const token = await Cookie.get("SCOM");
@@ -38,9 +46,6 @@ export default function RootLayout() {
         const res = await fetch("https://hostnplay.com/api/userData", {
           method: "GET",
           // credentials: 'include' is not needed in React Native fetch
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
         });
 
         const responseJSON = await res.json();
@@ -104,6 +109,15 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="Profile/user"
+          options={{
+            title: username,
+            headerRight: () => (
+              <NavBarRight token={isAuthenticated} userData={userData} />
+            ),
+          }}
+        />
+        <Stack.Screen
           name="signup"
           options={{
             title: "signup",
@@ -144,7 +158,16 @@ export default function RootLayout() {
             <Gamepad2Icon size={30} />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              if (userData.length == 0) return;
+
+              navigation.setOptions({ title: userData[0].UserName });
+              router.push(`Profile/user?username=${userData[0].UserName}`, {
+                title: "My Profile",
+              });
+            }}
+          >
             <User size={30} />
           </TouchableOpacity>
         </View>

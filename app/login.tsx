@@ -52,13 +52,13 @@ export default function Login() {
         await AsyncStorage.setItem("user", JSON.stringify(user));
         await AsyncStorage.setItem("SCOM", data.Token);
         await Cookie.set("SCOM", data.Token, {
-          expires: new Date(Date.now() + 3600 * 1000),
+          expires: new Date(Date.now() + 360 * 24 * 60 * 60 * 1000),
         });
         await AsyncStorage.setItem("SCOM_", "1");
         await AsyncStorage.setItem("theme", "dark");
 
         Auth.setUserData(data.userAuth);
-        Auth.setAuth(data.Token);
+        Auth.setIsAuthenticated(data.Token);
 
         if (route.params?.from) {
           navigation.replace(route.params.from);
